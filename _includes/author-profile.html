@@ -256,6 +256,12 @@
       {% include author-profile-custom-links.html %}
     </ul>
   </div>
-  <nostr-profile pubkey="npub1ltx67888tz7lqnxlrg06x234vjnq349tcfyp52r0lstclp548mcqnuz40t"></nostr-profile>
-  <script src="{{ '/assets/js/nostr-profile-badge.js' | relative_url }}"></script>
+  <div>
+    <script type="module" src="{{ '/assets/js/nostr-follow-button.js' | relative_url }}"></script>
+    <nostr-follow-button
+      nip05="saiy2k@iris.to"
+      theme="light"
+    >
+    </nostr-follow-button>
+  </div>
 </div>

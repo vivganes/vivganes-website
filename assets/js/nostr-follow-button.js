@@ -15809,6 +15809,166 @@
       );
     }
   };
+  var NDKNip07Signer = class {
+    _userPromise;
+    nip04Queue = [];
+    nip04Processing = false;
+    debug;
+    waitTimeout;
+    /**
+     * @param waitTimeout - The timeout in milliseconds to wait for the NIP-07 to become available
+     */
+    constructor(waitTimeout = 1e3) {
+      this.debug = (0, import_debug8.default)("ndk:nip07");
+      this.waitTimeout = waitTimeout;
+    }
+    async blockUntilReady() {
+      await this.waitForExtension();
+      const pubkey = await window.nostr.getPublicKey();
+      if (!pubkey) {
+        throw new Error("User rejected access");
+      }
+      return new NDKUser({ pubkey });
+    }
+    /**
+     * Getter for the user property.
+     * @returns The NDKUser instance.
+     */
+    async user() {
+      if (!this._userPromise) {
+        this._userPromise = this.blockUntilReady();
+      }
+      return this._userPromise;
+    }
+    /**
+     * Signs the given Nostr event.
+     * @param event - The Nostr event to be signed.
+     * @returns The signature of the signed event.
+     * @throws Error if the NIP-07 is not available on the window object.
+     */
+    async sign(event) {
+      await this.waitForExtension();
+      const signedEvent = await window.nostr.signEvent(event);
+      return signedEvent.sig;
+    }
+    async relays(ndk) {
+      await this.waitForExtension();
+      const relays = await window.nostr.getRelays?.() || {};
+      const activeRelays = [];
+      for (const url of Object.keys(relays)) {
+        if (relays[url].read && relays[url].write) {
+          activeRelays.push(url);
+        }
+      }
+      return activeRelays.map((url) => new NDKRelay(url, ndk?.relayAuthDefaultPolicy, ndk));
+    }
+    async encrypt(recipient, value, type = DEFAULT_ENCRYPTION_SCHEME) {
+      if (type === "nip44") {
+        return this.nip44Encrypt(recipient, value);
+      } else {
+        return this.nip04Encrypt(recipient, value);
+      }
+    }
+    async decrypt(sender, value, type = DEFAULT_ENCRYPTION_SCHEME) {
+      if (type === "nip44") {
+        return this.nip44Decrypt(sender, value);
+      } else {
+        return this.nip04Decrypt(sender, value);
+      }
+    }
+    async nip44Encrypt(recipient, value) {
+      await this.waitForExtension();
+      return await this.nip44.encrypt(recipient.pubkey, value);
+    }
+    get nip44() {
+      if (!window.nostr?.nip44) {
+        throw new Error("NIP-44 not supported by your browser extension");
+      }
+      return window.nostr.nip44;
+    }
+    async nip44Decrypt(sender, value) {
+      await this.waitForExtension();
+      return await this.nip44.decrypt(sender.pubkey, value);
+    }
+    async nip04Encrypt(recipient, value) {
+      await this.waitForExtension();
+      const recipientHexPubKey = recipient.pubkey;
+      return this.queueNip04("encrypt", recipientHexPubKey, value);
+    }
+    async nip04Decrypt(sender, value) {
+      await this.waitForExtension();
+      const senderHexPubKey = sender.pubkey;
+      return this.queueNip04("decrypt", senderHexPubKey, value);
+    }
+    async queueNip04(type, counterpartyHexpubkey, value) {
+      return new Promise((resolve, reject) => {
+        this.nip04Queue.push({
+          type,
+          counterpartyHexpubkey,
+          value,
+          resolve,
+          reject
+        });
+        if (!this.nip04Processing) {
+          this.processNip04Queue();
+        }
+      });
+    }
+    async processNip04Queue(item, retries = 0) {
+      if (!item && this.nip04Queue.length === 0) {
+        this.nip04Processing = false;
+        return;
+      }
+      this.nip04Processing = true;
+      const { type, counterpartyHexpubkey, value, resolve, reject } = item || this.nip04Queue.shift();
+      try {
+        let result;
+        if (type === "encrypt") {
+          result = await window.nostr.nip04.encrypt(counterpartyHexpubkey, value);
+        } else {
+          result = await window.nostr.nip04.decrypt(counterpartyHexpubkey, value);
+        }
+        resolve(result);
+      } catch (error) {
+        if (error.message && error.message.includes("call already executing")) {
+          if (retries < 5) {
+            this.debug("Retrying encryption queue item", {
+              type,
+              counterpartyHexpubkey,
+              value,
+              retries
+            });
+            setTimeout(() => {
+              this.processNip04Queue(item, retries + 1);
+            }, 50 * retries);
+            return;
+          }
+        }
+        reject(error);
+      }
+      this.processNip04Queue();
+    }
+    waitForExtension() {
+      return new Promise((resolve, reject) => {
+        if (window.nostr) {
+          resolve();
+          return;
+        }
+        let timerId;
+        const intervalId = setInterval(() => {
+          if (window.nostr) {
+            clearTimeout(timerId);
+            clearInterval(intervalId);
+            resolve();
+          }
+        }, 100);
+        timerId = setTimeout(() => {
+          clearInterval(intervalId);
+          reject(new Error("NIP-07 extension not available"));
+        }, this.waitTimeout);
+      });
+    }
+  };
   function dedup(event1, event2) {
     if (event1.created_at > event2.created_at) {
       return event1;
@@ -16853,38 +17013,85 @@
   ];
 
   // utils.ts
-  function maskNPub(npubString = "", length = 3) {
-    const npubLength = npubString.length;
-    if (npubLength !== 63) {
-      return "Invalid nPub";
-    }
-    let result = "npub1";
-    for (let i2 = 5; i2 < length + 5; i2++) {
-      result += npubString[i2];
-    }
-    result += "...";
-    let suffix = "";
-    for (let i2 = npubLength - 1; i2 >= npubLength - length; i2--) {
-      suffix = npubString[i2] + suffix;
-    }
-    result += suffix;
-    return result;
+  function getNostrLogo(theme = "dark", width = 24, height = 21) {
+    return `
+        <svg width="${width}" height="${height}" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.7084 10.1607C18.1683 13.3466 14.8705 14.0207 12.9733 13.9618C12.8515 13.958 12.7366 14.0173 12.6647 14.1157C12.4684 14.384 12.1547 14.7309 11.9125 14.7309C11.6405 14.7309 11.3957 15.254 11.284 15.5795C11.2723 15.6137 11.3059 15.6452 11.3403 15.634C14.345 14.6584 15.5241 14.3238 16.032 14.4178C16.4421 14.4937 17.209 15.8665 17.5413 16.5434C16.7155 16.5909 16.4402 15.8507 16.2503 15.7178C16.0985 15.6116 16.0415 16.0974 16.032 16.3536C15.8517 16.2587 15.6239 16.1259 15.6049 15.7178C15.5859 15.3098 15.3771 15.4142 15.2157 15.4332C15.0544 15.4521 12.5769 16.2493 12.2067 16.3536C11.8366 16.458 11.4094 16.6004 11.0582 16.8471C10.4697 17.1318 10.09 16.9325 9.98561 16.4485C9.90208 16.0614 10.4444 14.8701 10.726 14.3229C10.3779 14.4526 9.65529 14.7158 9.54898 14.7309C9.44588 14.7457 8.13815 15.7552 7.43879 16.3038C7.398 16.3358 7.37174 16.3827 7.36236 16.4336C7.25047 17.0416 6.89335 17.2118 6.27423 17.5303C5.77602 17.7867 4.036 20.4606 3.14127 21.9041C3.0794 22.0039 2.9886 22.0806 2.8911 22.1461C2.32279 22.5276 1.74399 23.4985 1.50923 23.9737C1.17511 23.0095 1.61048 22.1802 1.86993 21.886C1.75602 21.7873 1.49341 21.8449 1.37634 21.886C1.69907 20.7757 2.82862 20.7757 2.79066 20.7757C2.99948 20.5954 5.44842 17.0938 5.50538 16.9325C5.56187 16.7725 5.46892 16.0242 6.69975 15.6139C6.7193 15.6073 6.73868 15.5984 6.75601 15.5873C7.71493 14.971 8.43427 13.9774 8.67571 13.5542C7.39547 13.4662 5.92943 12.7525 5.16289 12.294C4.99765 12.1952 4.8224 12.1092 4.63108 12.0875C3.58154 11.9687 2.53067 12.6401 2.10723 13.0228C1.93258 12.7799 2.12938 12.0739 2.24961 11.7513C1.82437 11.6905 1.19916 12.308 0.939711 12.6243C0.658747 12.184 0.904907 11.397 1.06311 11.0585C0.501179 11.0737 0.120232 11.3306 0 11.4571C0.465109 7.99343 4.02275 9.00076 4.06259 9.04675C3.87275 8.84937 3.88857 8.59126 3.92021 8.48688C6.0749 8.54381 7.08105 8.18321 7.71702 7.81313C12.7288 5.01374 14.8882 6.73133 15.6856 7.1631C16.4829 7.59487 17.9304 7.77042 18.9318 7.37187C20.1278 6.83097 19.9478 5.43673 19.7054 4.90461C19.4397 4.32101 17.9399 3.51438 17.4084 2.49428C16.8768 1.47418 17.34 0.233672 17.9558 0.0607684C18.5425 -0.103972 18.9615 0.0876835 19.2831 0.378128C19.4974 0.571763 20.0994 0.710259 20.3509 0.800409C20.6024 0.890558 21.0201 1.00918 20.9964 1.08035C20.9726 1.15152 20.5699 1.14202 20.5075 1.14202C20.3794 1.14202 20.2275 1.161 20.3794 1.23217C20.5575 1.30439 20.8263 1.40936 20.955 1.47846C20.9717 1.48744 20.9683 1.51084 20.95 1.51577C20.0765 1.75085 19.2966 1.26578 18.7183 1.82526C18.1298 2.39463 19.3827 2.83114 20.0282 3.51438C20.6736 4.19762 21.3381 5.01372 20.8065 6.87365C20.395 8.31355 18.6703 9.53781 17.7795 10.0167C17.7282 10.0442 17.7001 10.1031 17.7084 10.1607Z" fill="${theme === "dark" ? "white" : "black"}"/>
+        </svg>
+    `;
+  }
+  function getLoadingNostrich(theme = "dark", width = 25, height = 25) {
+    return `<img width="${width}" height="${height}" src="./assets/${theme === "dark" ? "light" : "dark"}-nostrich-running.gif" />`;
+  }
+  function getSuccessAnimation(theme = "dark", width = 25, height = 25) {
+    return `
+        <style>
+            .checkmark__circle {
+                stroke-dasharray: 166;
+                stroke-dashoffset: 166;
+                stroke-width: 4;
+                stroke-miterlimit: 10;
+                stroke: ${theme === "dark" ? "#FFF" : "#000"};
+                animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+            }
+
+            .checkmark {
+                width: ${width}px;
+                height: ${height}px;
+                border-radius: 50%;
+                display: block;
+                stroke-width: 2;
+                stroke: ${theme === "dark" ? "#FFFFFF" : "#000000"};
+                stroke-miterlimit: 10;
+                box-shadow: inset 0px 0px 0px #7ac142;
+                animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+            }
+
+            .checkmark__check {
+                transform-origin: 50% 50%;
+                stroke-dasharray: 48;
+                stroke-dashoffset: 48;
+                stroke-width: 4;
+                animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+            }
+
+            @keyframes stroke {
+                100% {
+                    stroke-dashoffset: 0;
+                }
+            }
+            @keyframes scale {
+                0%, 100% {
+                    transform: none;
+            }
+            50% {
+                    transform: scale3d(1.1, 1.1, 1);
+                }
+            }
+            @keyframes fill {
+                100% {
+                    box-shadow: inset 0px 0px 0px 30px #fff;
+                    fill: #000;
+                }
+            }
+        </style>
+
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="${theme === "dark" ? "#000" : "#FFF"}"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+    `;
   }
 
-  // nostr-profile-badge.ts
-  var NostrProfileBadge = class extends HTMLElement {
+  // nostr-follow-button.ts
+  var NostrFollowButton = class extends HTMLElement {
     rendered = false;
     ndk = new NDK();
-    userProfile = {
-      name: "",
-      image: "",
-      nip05: ""
-    };
     theme = "light";
-    isLoading = true;
+    isLoading = false;
     isError = false;
-    onClick = null;
-    ndkUser;
+    errorMessage = "";
+    isFollowed = false;
     connectToNostr = async () => {
       await this.ndk.connect();
     };
@@ -16895,370 +17102,206 @@
       }
       return DEFAULT_RELAYS;
     };
-    getNDKUser = async () => {
-      const npub = this.getAttribute("npub");
-      const nip05 = this.getAttribute("nip05");
-      const pubkey = this.getAttribute("pubkey");
-      if (npub) {
-        return this.ndk.getUser({
-          npub
-        });
-      } else if (nip05) {
-        return this.ndk.getUserFromNip05(nip05);
-      } else if (pubkey) {
-        return this.ndk.getUser({
-          pubkey
-        });
-      }
-      return null;
-    };
-    getUserProfile = async () => {
-      try {
-        this.isLoading = true;
-        this.render();
-        const user = await this.getNDKUser();
-        if (user?.npub) {
-          this.ndkUser = user;
-          await user.fetchProfile();
-          this.userProfile = user.profile;
-          if (!this.userProfile.image) {
-            this.userProfile.image = "./assets/default_dp.png";
-          }
-          this.isError = false;
-        } else {
-          throw new Error("Either npub or nip05 should be provided");
-        }
-      } catch (err) {
-        this.isError = true;
-        throw err;
-      } finally {
-        this.isLoading = false;
-        this.render();
-      }
-    };
     getTheme = async () => {
       this.theme = "light";
       const userTheme = this.getAttribute("theme");
       if (userTheme) {
         const isValidTheme = ["light", "dark"].includes(userTheme);
         if (!isValidTheme) {
-          throw new Error(`Invalid theme '${userTheme}'. Accepted values are 'light', 'dark'`);
+          throw new Error(
+            `Invalid theme '${userTheme}'. Accepted values are 'light', 'dark'`
+          );
         }
         this.theme = userTheme;
       }
     };
     connectedCallback() {
-      const onClick = this.getAttribute("onClick");
-      if (onClick !== null) {
-        this.onClick = window[onClick];
-      }
       if (!this.rendered) {
         this.ndk = new NDK({
           explicitRelayUrls: this.getRelays()
         });
         this.getTheme();
         this.connectToNostr();
-        this.getUserProfile();
+        this.render();
         this.rendered = true;
       }
     }
     static get observedAttributes() {
-      return ["relays", "npub", "pubkey", "nip05", "theme", "show-npub", "show-follow", "onClick"];
+      return ["relays", "npub", "theme"];
     }
     attributeChangedCallback(name, _oldValue, newValue) {
       if (name === "relays") {
         this.ndk.explicitRelayUrls = this.getRelays();
         this.connectToNostr();
       }
-      if (["relays", "npub", "nip05"].includes(name)) {
-        this.getUserProfile();
-      }
-      if (name === "onClick") {
-        this.onClick = window[newValue];
-      }
       if (name === "theme") {
         this.getTheme();
-        this.render();
       }
-      if (["show-npub", "show-follow"].includes(name)) {
-        this.render();
-      }
+      this.render();
     }
-    disconnectedCallback() {
+    attachEventListeners() {
+      this.querySelector(".nostr-follow-button")?.addEventListener("click", async () => {
+        this.isError = false;
+        const nip07signer = new NDKNip07Signer();
+        this.isLoading = true;
+        this.render();
+        try {
+          this.ndk.signer = nip07signer;
+          await this.connectToNostr();
+          const userToFollowNpub = this.getAttribute("npub");
+          const userToFollowNip05 = this.getAttribute("nip05");
+          const userToFollowPubkey = this.getAttribute("pubkey");
+          if (!userToFollowNpub && !userToFollowNip05 && !userToFollowPubkey) {
+            this.errorMessage = "Provide npub, nip05 or pubkey";
+            this.isError = true;
+          } else {
+            let userToFollow = null;
+            if (userToFollowPubkey) {
+              userToFollow = this.ndk.getUser({
+                pubkey: userToFollowPubkey
+              });
+            } else if (userToFollowNpub) {
+              userToFollow = this.ndk.getUser({
+                npub: userToFollowNpub
+              });
+            } else if (userToFollowNip05) {
+              const userFromNip05 = await this.ndk.getUserFromNip05(userToFollowNip05);
+              if (userFromNip05) {
+                userToFollow = this.ndk.getUser({
+                  npub: userFromNip05.npub
+                });
+              }
+            }
+            if (userToFollow != null) {
+              const signedUser = await this.ndk.signer.user();
+              await signedUser.follow(userToFollow);
+              this.isFollowed = true;
+            }
+          }
+        } catch (err) {
+          this.isError = true;
+          if (err.message && err.message.includes("NIP-07")) {
+            this.errorMessage = `Looks like you don't have any nostr signing browser extension.
+                                Please checkout the following video to setup a signer extension - <a href="https://youtu.be/8thRYn14nB0?t=310" target="_blank">Video</a>`;
+          } else {
+            this.errorMessage = "Please authorize, click the button to try again!";
+          }
+        } finally {
+          this.isLoading = false;
+        }
+        this.render();
+      });
     }
     getStyles() {
       let variables = ``;
       if (this.theme === "dark") {
         variables = `
-      --nstrc-profile-badge-background: var(--nstrc-profile-badge-background-dark);
-      --nstrc-profile-badge-name-color: var(--nstrc-profile-badge-name-color-dark);
-      --nstrc-profile-badge-nip05-color: var(--nstrc-profile-badge-nip05-color-dark);
-      --nstrc-profile-badge-skeleton-min-hsl: var(--nstrc-profile-badge-skeleton-min-hsl-dark);
-      --nstrc-profile-badge-skeleton-max-hsl: var(--nstrc-profile-badge-skeleton-max-hsl-dark);
-      --nstrc-profile-badge-copy-foreground-color: var(--nstrc-profile-badge-copy-foreground-color-dark);
+          --nstrc-follow-btn-background: var(--nstrc-follow-btn-background-dark);
+          --nstrc-follow-btn-hover-background: var(--nstrc-follow-btn-hover-background-dark);
+    
+          --nstrc-follow-btn-text-color: var(--nstrc-follow-btn-text-color-dark);
+          --nstrc-follow-btn-border: var(--nstrc-follow-btn-border-dark);
       `;
       } else {
         variables = `
-      --nstrc-profile-badge-background: var(--nstrc-profile-badge-background-light);
-      --nstrc-profile-badge-name-color: var(--nstrc-profile-badge-name-color-light);
-      --nstrc-profile-badge-nip05-color: var(--nstrc-profile-badge-nip05-color-light);
-      --nstrc-profile-badge-skeleton-min-hsl: var(--nstrc-profile-badge-skeleton-min-hsl-light);
-      --nstrc-profile-badge-skeleton-max-hsl: var(--nstrc-profile-badge-skeleton-max-hsl-light);
-      --nstrc-profile-badge-copy-foreground-color: var(--nstrc-profile-badge-copy-foreground-color-light);
+          --nstrc-follow-btn-background: var(--nstrc-follow-btn-background-light);
+          --nstrc-follow-btn-hover-background: var(--nstrc-follow-btn-hover-background-light);
+    
+          --nstrc-follow-btn-text-color: var(--nstrc-follow-btn-text-color-light);
+          --nstrc-follow-btn-border: var(--nstrc-follow-btn-border-light);
       `;
       }
       return `
-    <style>
-      :root {
+        <style>
+          :root {
+            ${variables}
 
-        --nstrc-profile-badge-background-light: #f5f5f5;
-        --nstrc-profile-badge-background-dark: #121212;
-        --nstrc-profile-badge-name-color-light: #444;
-        --nstrc-profile-badge-name-color-dark: #CCC;
-        --nstrc-profile-badge-nip05-color-light: #808080;
-        --nstrc-profile-badge-nip05-color-dark: #757575;
-        --nstrc-profile-badge-skeleton-min-hsl-light: 200, 20%, 80%;
-        --nstrc-profile-badge-skeleton-min-hsl-dark: 200, 20%, 20%;
-        --nstrc-profile-badge-skeleton-max-hsl-light: 200, 20%, 95%;
-        --nstrc-profile-badge-skeleton-max-hsl-dark: 200, 20%, 30%;
-        --nstrc-profile-badge-copy-foreground-color-light: #222;
-        --nstrc-profile-badge-copy-foreground-color-dark: #CCC;
-        --nstrc-profile-badge-name-font-weight: 700;
-        --nstrc-profile-badge-nip05-font-weight: 400;
+            --nstrc-follow-btn-padding: 10px 16px;
+            --nstrc-follow-btn-font-size: 16px;
+            --nstrc-follow-btn-background-dark: #000000;
+            --nstrc-follow-btn-background-light: #FFFFFF;
+            --nstrc-follow-btn-hover-background-dark: #222222;
+            --nstrc-follow-btn-hover-background-light: #F9F9F9;
+            --nstrc-follow-btn-border-dark: none;
+            --nstrc-follow-btn-border-light: 1px solid #DDDDDD;
+            --nstrc-follow-btn-text-color-dark: #FFFFFF;
+            --nstrc-follow-btn-text-color-light: #000000;
+            --nstrc-follow-btn-border-radius: 8px;
+            --nstrc-follow-btn-error-font-size: 12px;
+            --nstrc-follow-btn-error-line-height: 1em;
+            --nstrc-follow-btn-error-max-width: 250px;
+            --nstrc-follow-btn-horizontal-alignment: start;
+            --nstrc-follow-btn-min-height: 47px;
+          }
 
-        ${variables}
+          .nostr-follow-button-container {
+            display: flex;
+            flex-direction: column;
+            font-family: Inter,sans-serif;
+            flex-direction: column;
+            gap: 8px;
+            width: fit-content;
+          }
 
-        --nstrc-follow-btn-padding: 4px 10px !important;
-        --nstrc-follow-btn-font-size: 10px !important;
-        --nstrc-follow-btn-border-radius: 8px !important;
-        --nstrc-follow-btn-error-font-size: 8px !important;
-        --nstrc-follow-btn-error-line-height: 1em !important;
-        --nstrc-follow-btn-horizontal-alignment: start !important;
-        --nstrc-follow-btn-min-height: auto !important;
-      }
-
-    .nostr-profile-badge-container {
-      display: flex;
-      align-items: center;
-      border-radius: 100px;
-      background-color: var(--nstrc-profile-badge-background);
-      gap: 10px;
-      font-size: 12px;
-      min-height: 48px;
-      padding: 8px 10px;
-      font-family: Nacelle,sans-serif;
-      cursor: pointer;
-    }
-
-    .nostr-profile-badge-container:has(.npub-container) {
-      padding: 10px 12px;
-    }
-
-    .nostr-profile-badge-left-container {
-      border-radius: 50%;
-    }
-
-    .nostr-profile-badge-left-container img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-    }
-
-    .nostr-profile-badge-container:has(.npub-container) .nostr-profile-badge-left-container img {
-      width: 64px !important;
-      height: 64px !important;
-    }
-
-    .nostr-profile-badge-right-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 3px;
-    }
-
-    .nostr-profile-badge-right-container .nostr-profile-badge-name {
-      color: var(--nstrc-profile-badge-name-color);
-      font-weight: var(--nstrc-profile-badge-name-font-weight);
-    }
-
-    .nostr-profile-badge-right-container .nostr-profile-badge-nip05 {
-      color: var(--nstrc-profile-badge-nip05-color);
-      font-weight: var(--nstrc-profile-badge-nip05-font-weight);
-    }
-
-    .skeleton {
-      animation: profile-badge-skeleton-loading 0.5s linear infinite alternate;
-    }
-
-    @keyframes profile-badge-skeleton-loading {
-      0% {
-        background-color: hsl(var(--nstrc-profile-badge-skeleton-min-hsl));
-      }
-      100% {
-        background-color: hsl(var(--nstrc-profile-badge-skeleton-max-hsl));
-      }
-    }
-
-    .error {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background-color: red;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      color: #FFF;
-    }
-
-    .error-text {
-      color: red;
-      font-weight: bold;
-    }
-
-    .copy-button {
-      display: flex;
-      font-size: 16px;
-      min-width: 15px;
-      min-height: 15px;
-      align-items: center;
-      justify-content: center;
-      background-color: hsl(var(--nstrc-profile-badge-skeleton-min-hsl));
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      color: var(--nstrc-profile-badge-copy-foreground-color);
-    }
-
-    .npub-container, .nip05-container {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .npub-container .npub {
-      color: #a2a2a2;
-    }
+          .nostr-follow-button-wrapper {
+            display: flex;
+            justify-content: var(--nstrc-follow-btn-horizontal-alignment);
+          }
     
-    .npub-container .nostr-profile-badge-nip05 {
-      word-break: break-all;
-    }
+          .nostr-follow-button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: var(--nstrc-follow-btn-border-radius);
+            background-color: var(--nstrc-follow-btn-background);
+            cursor: pointer;
 
-    .name-container {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-      padding: 3px 0; // To equalize flex height with other items
-    }
-    </style>
+            min-height: var(--nstrc-follow-btn-min-height);
+
+            border: var(--nstrc-follow-btn-border);
+
+            padding: var(--nstrc-follow-btn-padding);
+            font-size: var(--nstrc-follow-btn-font-size);
+            color: var(--nstrc-follow-btn-text-color);
+
+            ${this.isLoading ? "pointer-events: none; user-select: none; background-color: var(--nstrc-follow-btn-hover-background);" : ""}
+          }
+
+          .nostr-follow-button:hover {
+            background-color: var(--nstrc-follow-btn-hover-background);
+          }
+
+          .nostr-follow-button-error small {
+            justify-content: flex-end;
+            color: red;
+            font-size: var(--nstrc-follow-btn-error-font-size);
+            line-height: var(--nstrc-follow-btn-error-line-height);
+            max-width: var(--nstrc-follow-btn-error-max-width);
+          }
+        </style>
     `;
-    }
-    renderNpub() {
-      const npubAttribute = this.getAttribute("npub");
-      const showNpub = this.getAttribute("show-npub");
-      if (showNpub === "false") {
-        return "";
-      }
-      if (showNpub === null && this.userProfile.nip05) {
-        return "";
-      }
-      if (!npubAttribute && !this.ndkUser.npub) {
-        console.warn("Cannot use showNpub without providing a nPub");
-        return "";
-      }
-      return `
-      <div class="npub-container">
-        <span class="npub">${maskNPub(npubAttribute || this.ndkUser.npub)}</span>
-        <span id="npub-copy" class="copy-button">&#x2398;</span>
-      </div>
-    `;
-    }
-    copy(string) {
-      navigator.clipboard.writeText(string);
-    }
-    onProfileClick() {
-      if (this.isError) {
-        return;
-      }
-      if (this.onClick !== null && typeof this.onClick === "function") {
-        this.onClick(this.userProfile);
-        return;
-      }
-      let key = "";
-      const nip05 = this.getAttribute("nip05");
-      const npub = this.getAttribute("npub");
-      if (nip05) {
-        key = nip05;
-      } else if (npub) {
-        key = npub;
-      } else {
-        return;
-      }
-      window.open(`https://njump.me/${key}`, "_blank");
-    }
-    attachEventListeners() {
-      this.querySelector(".nostr-profile-badge-container")?.addEventListener("click", () => this.onProfileClick());
-      this.querySelector("#npub-copy")?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        this.copy(this.getAttribute("npub") || "");
-      });
-      this.querySelector("#nip05-copy")?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        this.copy(this.userProfile.nip05 || "");
-      });
     }
     render() {
+      const iconWidthAttribute = this.getAttribute("icon-width");
+      const iconHeightAttribute = this.getAttribute("icon-height");
+      const iconWidth = iconWidthAttribute !== null ? Number(iconWidthAttribute) : 25;
+      const iconHeight = iconHeightAttribute !== null ? Number(iconHeightAttribute) : 25;
       this.innerHTML = this.getStyles();
-      if (this.userProfile === void 0 || this.userProfile.image === void 0 || this.userProfile.displayName === void 0 && this.userProfile.name === void 0) {
-        this.isError = true;
-      }
-      const showFollow = this.getAttribute("show-follow") === "true";
       this.innerHTML += `
-    <div class='nostr-profile-badge-container'>
-      <div class='nostr-profile-badge-left-container'>
-      ${this.isLoading ? '<div style="width: 35px; height: 35px; border-radius: 50%;" class="skeleton"></div>' : this.isError ? '<div class="error">&#9888;</div>' : `<img src='${this.userProfile.image}' alt='Nostr profile image of ${this.userProfile.displayName || this.userProfile.name}'/>`}
-      </div>
+      <div class="nostr-follow-button-container ${this.isError ? "nostr-follow-button-error" : ""}">
+        <div class="nostr-follow-button-wrapper">
+          <button class="nostr-follow-button">
+            ${this.isLoading ? `${getLoadingNostrich(this.theme, iconWidth, iconHeight)} <span>Following...</span>` : this.isFollowed ? `${getSuccessAnimation(this.theme, iconWidth, iconHeight)} Followed!` : `${getNostrLogo(this.theme, iconWidth, iconHeight)} <span>Follow me on Nostr</span>`}
+          </button>
+        </div>
 
-      <div class='nostr-profile-badge-right-container'>
-      ${this.isLoading ? `
-          <div style="width: 70%; height: 10px; border-radius: 10px;" class="skeleton"></div>
-          <div style="width: 80%; height: 8px; border-radius: 10px; margin-top: 5px;" class="skeleton"></div>
-          ` : this.isError ? `
-                <div class='error-container'>
-                  <span class="error-text">Unable to load</span>
-                </div>
-                <div>
-                  <small class="error-text" style="font-weight: normal">Please check console for more information</small>
-                </div>
-              ` : `
-              <div class="name-container">
-                <span class='nostr-profile-badge-name'>${this.userProfile.displayName || this.userProfile.name}</span>
-                ${showFollow ? `
-                    <nostr-follow-button
-                      npub="${this.ndkUser.npub}"
-                      icon-width="15"
-                      icon-height="15"
-                      theme="${this.theme}"
-                    ></nostr-follow-button>
-                  ` : ""}
-              </div>
-              ${Boolean(this.userProfile.nip05) ? `
-                      <div class="nip05-container">
-                        <span class='nostr-profile-badge-nip05'>${this.userProfile.nip05}</span>
-                        <span id="nip05-copy" class="copy-button">&#x2398;</span>
-                      </div>
-                    ` : ""}
-
-              ${this.renderNpub()}
-              `}
+        ${this.isError ? `<small>${this.errorMessage}</small>` : ""}
       </div>
-    </div>
     `;
       this.attachEventListeners();
     }
   };
-  customElements.define("nostr-profile-badge", NostrProfileBadge);
+  customElements.define("nostr-follow-button", NostrFollowButton);
 })();
 /*! Bundled license information:
 
