@@ -9,13 +9,20 @@ toc_sticky: true
 title: "Vivek's Creations"
 ---
 ## Products
-### Notesally
-<img alt="Notesally" src="https://ampyard.com/img/logos/Notesally-Logo.png" height="50px" width="150px">
+### Kanbanstr
+[Visit Kanbanstr](https://kanbanstr.com){:target="_blank"}
 
-### FaceQuest
-![FaceQuest](https://www.ampyard.com/img/products/facequest_logo.png)
+<img alt="Kanbanstr" src="https://kanbanstr.com/kanbanstr-card-image.png" height="200px" >
+
+### Zapddit
+[Visit Zapddit](https://zapddit.com){:target="_blank"}
+
+<img alt="Zapddit" src="https://zapddit.com/assets/icons/logo-without-text-zapddit.svg" height="200px" >
+
 
 
 ## Organization
 ### Ampyard
-![Ampyard](https://www.ampyard.com/img/logo.png)
+[Visit Ampyard](https://ampyard.com){:target="_blank"}
+
+![Ampyard](https://ampyard.com/assets/img/logo.png)
