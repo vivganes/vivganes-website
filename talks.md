@@ -11,8 +11,12 @@ title: "Vivek's Talks"
 ---
 {% include youtubePlayer.html id='PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD' %}
 
+### 2025
+- AI Tank Symposium
+- Tech Coach Circle - Leadership Talk Series
+
 ### 2024
-- Regional Scrum Gathering 2024
+- Regional Scrum Gathering 2024 (Hyderabad)
 - Entrepreneur Guest Talk at Dayananda Sagar University, Bengaluru
 - Agility Today - Gurugram
 - Agility Today - Hyderabad
