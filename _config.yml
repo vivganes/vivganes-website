@@ -16,11 +16,11 @@ minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "n
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Vivek Ganesan"
+title                    : "VIVEK GANESAN"
 title_separator          : "-"
-subtitle                 : "A techie, an author, a coach, a learner, a blah, blah and a blah!" # site tagline that appears below site title in masthead
-name                     : "Vivek Ganesan"
-description              : "A techie, an author, a coach, a learner, a blah, blah and a blah!"
+subtitle                 : "AI SaaS creator, an author, an educator, a learner, a blah, blah and a blah!"  # site tagline that appears below site title in masthead
+name                     : "VIVEK GANESAN"
+description              : "AI SaaS creator, an author, an educator, a learner, a blah, blah and a blah!"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -101,18 +101,15 @@ analytics:
 
 # Site Author
 author:
-  name             : "Vivek Ganesan"
+  name             : "VIVEK GANESAN"
   avatar           : "/assets/images/vivek_pic_new.png"
-  bio              : "A techie, an author, a coach, a learner, a blah, blah and a blah!"
+  bio              : "AI SaaS creator, an author, an educator, a learner, a blah, blah and a blah!"
   location         : "Bengaluru, India"
   email            :
   links:    
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/vivganes/"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/@vivek_ganesan"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/vivganes"
@@ -120,18 +117,12 @@ author:
 # Site Footer
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/@vivek_ganesan"
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      url: "https://facebook.com/vivganes"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/vivganes"
-    - label: "GitLab"
-      icon: "fab fa-fw fa-gitlab"
-      # url:
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/vivganes/"
     - label: "Bitbucket"
       icon: "fab fa-fw fa-bitbucket"
       # url:

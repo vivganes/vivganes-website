@@ -1,7 +1,9 @@
 ---
 layout: single
 author_profile: true
-classes: wide
+header:
+  image: /assets/images/vivek-website-banner.png
+  
 ---
 Vivek Ganesan is a published author and a secret 'super hero' at [Ampyard](https://www.ampyard.com){:target="_blank"}. He helps organizations, teams and individuals to be better and happier than they are, using his Technical Agility, Process Agility and DevOps coaching skills. 
 

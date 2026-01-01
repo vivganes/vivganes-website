@@ -12,8 +12,14 @@ title: "Vivek's Talks"
 {% include youtubePlayer.html id='PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD' %}
 
 ### 2025
-- AI Tank Symposium
-- Tech Coach Circle - Leadership Talk Series
+- [AI Keynote @ Siemens](https://www.linkedin.com/posts/shellybharti_edge2025-genai-freddyaicopilot-activity-7339257328321368064-yp3F?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZAKdEBXnzhozsvYMpMxp0F3_tEV5PcA9c){:target="_blank"} -  EDGE Conference, Noida
+- [Regional Scrum Gathering 2025 (Bengaluru)](https://www.linkedin.com/posts/vivganes_last-weekend-i-had-the-opportunity-to-speak-activity-7351627406668914688-FIwk?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZAKdEBXnzhozsvYMpMxp0F3_tEV5PcA9c){:target="_blank"}
+- [Building Practical Agents for Productivity, not Pink Slips](https://www.linkedin.com/posts/vivganes_this-saturday-i-had-the-opportunity-to-share-activity-7335135254162092032-UY6V?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZAKdEBXnzhozsvYMpMxp0F3_tEV5PcA9c){:target="_blank"} - Xebia AI Meetup @ Bangalore
+- [Mommy, my LLM is acting up!](https://www.linkedin.com/posts/vivganes_%F0%9D%99%88%F0%9D%99%A4%F0%9D%99%A2%F0%9D%99%A2%F0%9D%99%AE-%F0%9D%99%88%F0%9D%99%AE-%F0%9D%99%87%F0%9D%99%87%F0%9D%99%88-%F0%9D%99%9E%F0%9D%99%A8-%F0%9D%99%96%F0%9D%99%98%F0%9D%99%A9%F0%9D%99%9E%F0%9D%99%A3%F0%9D%99%9C-activity-7330553715302522880-3NWa?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZAKdEBXnzhozsvYMpMxp0F3_tEV5PcA9c){:target="_blank"} - AI Tank Symposium
+- [Real Productivity, Rare Pushbacks - 5 Principles for AI Agents in Scrum Teams](https://www.linkedin.com/posts/learnovative_we-have-organized-a-free-webinar-on-7-jul-activity-7348604357480808450-0UMS?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZAKdEBXnzhozsvYMpMxp0F3_tEV5PcA9c){:target="_blank"} - A Learnovative Webinar
+- [Buying Gen AI for your Team? Dodge these 5 costly mistakes](https://www.youtube.com/watch?v=vduz8W-nh6w){:target="_blank"} - Tech Coach Circle - Leadership Talk Series
+- [AI, Agentic Systems & The Future of SaaS](https://www.youtube.com/watch?v=KYPwV36HSbU&list=PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD){:target="_blank"} - The AI Tank Podcast
+- [Unlocking The Future of AI](https://www.youtube.com/watch?v=9tRGKkUSZ9E){:target="_blank"} - Teri Meri Kahaani Podcast
 
 ### 2024
 - Regional Scrum Gathering 2024 (Hyderabad)

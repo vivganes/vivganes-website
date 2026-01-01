@@ -12,12 +12,12 @@ title: "Vivek's Creations"
 ### Kanbanstr
 [Visit Kanbanstr](https://kanbanstr.com){:target="_blank"}
 
-<img alt="Kanbanstr" src="https://kanbanstr.com/kanbanstr-card-image.png" height="200px" >
+![Kanbanstr](https://kanbanstr.com/kanbanstr-card-image.png){:style="height:100px"}
 
 ### Zapddit
 [Visit Zapddit](https://zapddit.com){:target="_blank"}
 
-<img alt="Zapddit" src="https://zapddit.com/assets/icons/logo-without-text-zapddit.svg" height="200px" >
+![Zapddit](https://zapddit.com/assets/icons/logo-without-text-zapddit.svg){:style="height:100px"}
 
 
 
@@ -25,4 +25,4 @@ title: "Vivek's Creations"
 ### Ampyard
 [Visit Ampyard](https://ampyard.com){:target="_blank"}
 
-![Ampyard](https://ampyard.com/assets/img/logo.png)
+![Ampyard](https://ampyard.com/assets/img/logo.png){:style="height:100px"}
