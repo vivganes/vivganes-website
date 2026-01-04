@@ -1,5 +1,5 @@
 ---
-permalink: "/writing"
+permalink: "/writings"
 layout: single
 author_profile: true
 toc: true
@@ -25,7 +25,7 @@ title: "Vivek's Writings"
 
 <div class="substack-post-embed"><p lang="en">On Agency, A Floor-by-Floor Guide to AI Agents by Vivek Ganesan</p><p>From rigid scripts to human creativity, a floor-by-floor guide to what really makes an AI-enabled system an agent.</p><a data-post-link href="https://viveksgag.substack.com/p/on-agency-a-floor-by-floor-guide">Read on Substack</a></div><script async src="https://substack.com/embedjs/embed.js" charset="utf-8"></script>
 
-[View all blog posts](https://viveksgag.substack.com/){:target="_blank"}
+[View all blog posts](https://viveksgag.substack.com/){:target="_blank" .btn .btn--info}
 
 ### Research Publications
 
