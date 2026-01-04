@@ -59,7 +59,7 @@ title: "Vivek's Talks"
 - [Technical Agility Conference 2019](https://www.youtube.com/watch?v=E2B-lqp62oc&t=627s){:target="_blank"}
 - Theme & Framework Agnostic Conference 2019
 - Regional Scrum Gathering Dhaka 2019
-- XP 2019 Montreal
+- [XP Conference 2019 Montreal](https://xp2019.sched.com/event/NueD/educators-symposium-session-iii-agile-beyond-code?iframe=yes&w=100%&sidebar=yes&bg=no){:target="_blank"}
 - Regional Scrum Gathering India 2019
 - World DevOps Summit 2019
 - [Agile Gurugram 2019](https://x.com/AgileNetwork_in/status/1086224882361237504){:target="_blank"}
