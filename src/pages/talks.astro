@@ -1,0 +1,490 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Talks data organized by year
+const talks = {
+  2025: [
+    { title: "AI Keynote @ Siemens", venue: "EDGE Conference, Noida", link: "https://www.linkedin.com/posts/shellybharti_edge2025-genai-freddyaicopilot-activity-7339257328321368064-yp3F" },
+    { title: "Regional Scrum Gathering 2025", venue: "Bengaluru", link: "https://www.linkedin.com/posts/vivganes_last-weekend-i-had-the-opportunity-to-speak-activity-7351627406668914688-FIwk" },
+    { title: "Building Practical Agents for Productivity, not Pink Slips", venue: "Xebia AI Meetup, Bangalore", link: "https://www.linkedin.com/posts/vivganes_this-saturday-i-had-the-opportunity-to-share-activity-7335135254162092032-UY6V" },
+    { title: "Mommy, my LLM is acting up!", venue: "AI Tank Symposium", link: "https://www.linkedin.com/posts/vivganes_%F0%9D%99%88%F0%9D%99%A4%F0%9D%99%A2%F0%9D%99%A2%F0%9D%99%AE-%F0%9D%99%88%F0%9D%99%AE-%F0%9D%99%87%F0%9D%99%87%F0%9D%99%88-%F0%9D%99%9E%F0%9D%99%A8-%F0%9D%99%96%F0%9D%99%98%F0%9D%99%A9%F0%9D%99%9E%F0%9D%99%A3%F0%9D%99%9C-activity-7330553715302522880-3NWa" },
+    { title: "Real Productivity, Rare Pushbacks - 5 Principles for AI Agents in Scrum Teams", venue: "Learnovative Webinar", link: "https://www.linkedin.com/posts/learnovative_we-have-organized-a-free-webinar-on-7-jul-activity-7348604357480808450-0UMS" },
+    { title: "Buying Gen AI for your Team? Dodge these 5 costly mistakes", venue: "Tech Coach Circle - Leadership Talk Series", link: "https://www.youtube.com/watch?v=vduz8W-nh6w", video: true },
+    { title: "AI, Agentic Systems & The Future of SaaS", venue: "The AI Tank Podcast", link: "https://www.youtube.com/watch?v=KYPwV36HSbU", video: true },
+    { title: "Unlocking The Future of AI", venue: "Teri Meri Kahaani Podcast", link: "https://www.youtube.com/watch?v=9tRGKkUSZ9E", video: true }
+  ],
+  2024: [
+    { title: "Regional Scrum Gathering 2024", venue: "Hyderabad" },
+    { title: "Entrepreneur Guest Talk", venue: "Dayananda Sagar University, Bengaluru" },
+    { title: "Agility Today", venue: "Gurugram" },
+    { title: "Agility Today", venue: "Hyderabad" },
+    { title: "Agility Today", venue: "Bangalore" },
+    { title: "Regional Scrum Gathering", venue: "Bangalore" }
+  ],
+  2023: [
+    { title: "Agility Today - Agile Engineering Lab", venue: "" },
+    { title: "XACT Technical Agility Meetup", venue: "Bengaluru" }
+  ],
+  2022: [
+    { title: "Regional Scrum Gathering Hyderabad 2022", venue: "Hyderabad", link: "https://www.youtube.com/watch?v=RlY20WRm15w", video: true },
+    { title: "Agile NCR 2022", venue: "NCR", link: "https://youtu.be/IkjkvVkVXYg", video: true },
+    { title: "Agile World Indie", venue: "", link: "https://www.youtube.com/watch?v=1hXzIpwJ1AQ", video: true },
+    { title: "Happy hour of coaching", venue: "Pune Agile Thought Leaders", link: "https://www.youtube.com/watch?v=ZMUs-LEDJA8", video: true },
+    { title: "Agilists Unlearning Series", venue: "", link: "https://www.youtube.com/watch?v=FZpqAmBs4oQ", video: true },
+    { title: "Digital Agility Institute Livestream", venue: "", link: "https://www.youtube.com/watch?v=xPrzR-II94o", video: true },
+    { title: "Xebia Agile Cast", venue: "", link: "https://www.youtube.com/watch?v=Xy0INw3HyEY", video: true },
+    { title: "Game of Testing 2022", venue: "", link: "https://www.youtube.com/watch?v=NjHrxlatrAI", video: true }
+  ],
+  2021: [
+    { title: "Agile India 2021", venue: "", link: "https://www.youtube.com/watch?v=SpfU3bQSH1s", video: true },
+    { title: "Technical Agility Conference 2021", venue: "" }
+  ],
+  2020: [
+    { title: "Regional Scrum Gathering", venue: "Hyderabad" },
+    { title: "Technical Agility Conference 2020", venue: "", link: "https://www.youtube.com/watch?v=yJJgNMwFTow", video: true },
+    { title: "Business Agility Bengaluru Meetup", venue: "", link: "https://www.youtube.com/watch?v=UXTOKKQYmQM", video: true },
+    { title: "Agile Gurugram 2020", venue: "" }
+  ],
+  2019: [
+    { title: "Regional Scrum Gathering", venue: "Dhaka" },
+    { title: "Regional Scrum Gathering Nepal 2019", venue: "Nepal", link: "https://www.youtube.com/watch?v=cqynCx82YA0", video: true },
+    { title: "Technical Agility Conference 2019", venue: "", link: "https://www.youtube.com/watch?v=E2B-lqp62oc", video: true },
+    { title: "Theme & Framework Agnostic Conference 2019", venue: "" },
+    { title: "XP Conference 2019", venue: "Montreal", link: "https://xp2019.sched.com/event/NueD/educators-symposium-session-iii-agile-beyond-code" },
+    { title: "Regional Scrum Gathering India 2019", venue: "India" },
+    { title: "World DevOps Summit 2019", venue: "" },
+    { title: "Agile Gurugram 2019", venue: "", link: "https://x.com/AgileNetwork_in/status/1086224882361237504" }
+  ],
+  2018: [
+    { title: "Agile & DevOps Day (Accenture) 2018", venue: "" },
+    { title: "Regional Scrum Gathering Nepal 2018", venue: "Nepal", link: "https://www.youtube.com/watch?v=IJnpZ7NlrX8", video: true },
+    { title: "Lean Kanban India 2018", venue: "" },
+    { title: "Agile 2018", venue: "San Diego" },
+    { title: "Theme and Framework Agnostic Conference 2018", venue: "", link: "https://www.linkedin.com/feed/update/urn:li:activity:6553174039710523392/" },
+    { title: "DevOps Days Moscow 2018", venue: "Moscow", link: "https://www.youtube.com/watch?v=ijhI4cp4DBI", video: true },
+    { title: "Agile & Automation Conclave 2018", venue: "" },
+    { title: "Agile Gurugram 2018", venue: "", link: "https://twitter.com/PingalaSoftware/status/978166142672896000" },
+    { title: "Accenture Liquid Delivery Day 2018", venue: "" },
+    { title: "Spark the Change India 2018", venue: "" }
+  ],
+  2017: [
+    { title: "Agile Coffee Talk", venue: "", link: "https://www.youtube.com/watch?v=ISiHkPVdoJg", video: true },
+    { title: "Business and Enterprise Agility Conference (BEACON)", venue: "" },
+    { title: "BizDevOps Master Webinar Series", venue: "", link: "https://www.youtube.com/watch?v=i4CpS14E7Eo", video: true },
+    { title: "Discuss Agile Conference", venue: "Bangalore" },
+    { title: "Agile Deep Dive Conference", venue: "Bangalore" },
+    { title: "Regional Scrum Gathering (India) 2017", venue: "" },
+    { title: "DevOps Conference 2017", venue: "Hyderabad" },
+    { title: "Agile Day Hyderabad 2017", venue: "" },
+    { title: "DevOps Conference 2017", venue: "Chennai" },
+    { title: "DevOps Conference 2017", venue: "Bengaluru" }
+  ],
+  2016: [
+    { title: "Business Agility Roadshow", venue: "Delhi" },
+    { title: "Discuss Agile Day", venue: "Hyderabad" },
+    { title: "XP Conference 2016", venue: "", link: "https://www.youtube.com/watch?v=3pdGQYIXGz8", video: true },
+    { title: "Discuss Agile Conference", venue: "Bangalore", link: "https://www.youtube.com/watch?v=BN-G03zhLwE", video: true },
+    { title: "Discuss Agile Conference", venue: "Delhi" }
+  ],
+  2015: [
+    { title: "XP Conference 2015", venue: "" },
+    { title: "Discuss Agile Day", venue: "Hyderabad" },
+    { title: "Discuss Agile Conference", venue: "Delhi", link: "https://www.youtube.com/watch?v=txDCUkihuX8", video: true },
+    { title: "Agile India 2015", venue: "", link: "https://www.youtube.com/watch?v=F9Cs1OQHSJ8", video: true }
+  ],
+  2013: [
+    { title: "Featured Speaker at Hyderabad Data Science Group Meetup", venue: "" },
+    { title: "Featured Speaker at JavaOne India, 2013", venue: "", link: "https://web.archive.org/web/20131006013414/http://www.oracle.com/javaone/in-en/program/javaone-india-speakers-1931748.html#ganesan" }
+  ]
+};
+
+const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
+---
+
+<Layout title="Talks - Vivek Ganesan">
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <span class="tag">Conference Speaking</span>
+        <h1>Talks & <span class="text-gradient">Presentations</span></h1>
+        <p>Speaking at international conferences since 2013 on AI, software engineering, DevOps, and technical agility.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section class="section video-section">
+    <div class="container">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/videoseries?list=PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD"
+          title="Vivek's Talks Playlist"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section timeline-section">
+    <div class="container">
+      <div class="timeline-layout">
+        <!-- Sticky Nav -->
+        <nav class="timeline-nav">
+          <div class="timeline-nav-inner">
+            <h3>Jump to Year</h3>
+            <ul class="year-list">
+              {years.map(year => (
+                <li>
+                  <a href={`#year-${year}`} class="year-link">{year}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Timeline Content -->
+        <div class="timeline-content">
+          {years.map(year => (
+            <div id={`year-${year}`} class="year-section">
+              <div class="year-header">
+                <span class="year-badge">{year}</span>
+                <span class="year-count">{talks[year].length} talks</span>
+              </div>
+
+              <div class="talks-grid">
+                {talks[year].map(talk => (
+                  <article class="talk-card">
+                    <div class="talk-content">
+                      <h3 class="talk-title">
+                        {talk.link ? (
+                          <a href={talk.link} target="_blank" rel="noopener">
+                            {talk.title}
+                            {talk.video && (
+                              <svg class="video-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23 7l-7 5 7 5V7z"></path>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"></rect>
+                              </svg>
+                            )}
+                          </a>
+                        ) : talk.title}
+                      </h3>
+                      {talk.venue && <p class="talk-venue">{talk.venue}</p>}
+                    </div>
+                    {talk.link && (
+                      <a href={talk.link} target="_blank" rel="noopener" class="talk-link" aria-label="View talk">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                      </a>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="invite-card">
+        <div class="invite-content">
+          <h2>Want me to speak at your event?</h2>
+          <p>I'm available for keynotes, workshops, and panel discussions on AI, software engineering, and technical agility.</p>
+          <a href="https://linkedin.com/in/vivganes/" target="_blank" class="btn btn-primary">
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page Hero */
+  .page-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    background: linear-gradient(to bottom, var(--color-bg-secondary), var(--color-bg));
+  }
+
+  .page-hero-content {
+    max-width: 700px;
+  }
+
+  .page-hero .tag {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero h1 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  /* Video Section */
+  .video-section {
+    padding-top: 0;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    padding-bottom: 56.25%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Timeline Layout */
+  .timeline-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-3xl);
+  }
+
+  /* Timeline Nav */
+  .timeline-nav {
+    position: relative;
+  }
+
+  .timeline-nav-inner {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-xl));
+  }
+
+  .timeline-nav h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .year-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .year-link {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .year-link:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text);
+  }
+
+  /* Year Section */
+  .year-section {
+    margin-bottom: var(--space-3xl);
+    scroll-margin-top: calc(var(--header-height) + var(--space-xl));
+  }
+
+  .year-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .year-badge {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .year-count {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Talks Grid */
+  .talks-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .talk-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+  }
+
+  .talk-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+  }
+
+  .talk-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .talk-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--color-text);
+  }
+
+  .talk-title a {
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .talk-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .video-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .talk-venue {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .talk-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .talk-link:hover {
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+  }
+
+  /* Invite Card */
+  .invite-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl);
+    text-align: center;
+  }
+
+  .invite-card h2 {
+    margin-bottom: var(--space-md);
+  }
+
+  .invite-card p {
+    max-width: 500px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .timeline-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .timeline-nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .talk-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .talk-link {
+      align-self: flex-end;
+    }
+
+    .invite-card {
+      padding: var(--space-xl);
+    }
+  }
+</style>
+
+<script>
+  // Smooth scroll for year links
+  document.querySelectorAll('.year-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      const target = document.querySelector(href);
+      target?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Highlight active year in nav
+  const yearSections = document.querySelectorAll('.year-section');
+  const yearLinks = document.querySelectorAll('.year-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        yearLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0% -80% 0%' });
+
+  yearSections.forEach(section => observer.observe(section));
+</script>
+
+<style>
+  .year-link.active {
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+  }
+</style>

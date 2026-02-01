@@ -1,0 +1,539 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const books = [
+  {
+    title: "Test-first Copilot",
+    asin: "B0G34GDG2F",
+    description: "AI-assisted software development with a strong focus on engineering quality, test-first thinking, and professional judgement.",
+    featured: true
+  },
+  {
+    title: "Blameless Continuous Integration",
+    asin: "B0793QPC48",
+    description: "A small step towards psychological safety of Agile teams through blameless CI practices."
+  },
+  {
+    title: "Metrics for Agile Product Teams",
+    asin: "B0925X6HHX",
+    description: "An illustrated handbook of do's and don'ts for measuring Agile team performance effectively."
+  },
+  {
+    title: "TDD for Spring Boot REST Microservices",
+    asin: "B0BDXJ1NGZ",
+    description: "A step by step blueprint for the confused souls on test-driven development with Spring Boot."
+  }
+];
+
+const publications = [
+  {
+    title: "Design and analysis of Prototype Hardware for Secret sharing using 2-D Image Processing",
+    journal: "International Journal of Computer Applications (0975-8887), Volume 4 – No 4",
+    date: "July 2010",
+    link: "https://scholar.google.com.tw/citations?view_op=view_citation&hl=en&user=8VNTiCkAAAAJ&citation_for_view=8VNTiCkAAAAJ:u5HHmVD_uO8C"
+  },
+  {
+    title: "An Invisible Communication for Secret Sharing against Transmission Error",
+    journal: "Universal Journal of Computer Science and Engineering Technology (2219-2158), 1 (2), 117-121",
+    date: "Nov. 2010",
+    link: "https://scholar.google.com.tw/citations?view_op=view_citation&hl=en&user=8VNTiCkAAAAJ&citation_for_view=8VNTiCkAAAAJ:u-x6o8ySG0sC"
+  }
+];
+---
+
+<Layout title="Writings - Vivek Ganesan">
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <span class="tag">Publications</span>
+        <h1>Books & <span class="text-gradient">Writings</span></h1>
+        <p>Sharing knowledge through books, articles, and research publications on AI, software development, and DevOps.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Books Section -->
+  <section class="section books-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Books</h2>
+        <p>Published works on software engineering, AI, and technical practices.</p>
+      </div>
+
+      <div class="books-grid">
+        {books.map(book => (
+          <article class={`book-card ${book.featured ? 'featured' : ''}`}>
+            <div class="book-cover">
+              <iframe
+                type="text/html"
+                src={`https://read.amazon.in/kp/card?asin=${book.asin}&preview=newtab&linkCode=kpe`}
+                title={book.title}
+                loading="lazy">
+              </iframe>
+            </div>
+            <div class="book-info">
+              {book.featured && <span class="featured-badge">Latest</span>}
+              <h3>{book.title}</h3>
+              <p>{book.description}</p>
+              <a href={`https://www.amazon.com/dp/${book.asin}`} target="_blank" rel="noopener" class="book-link">
+                View on Amazon
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles Section -->
+  <section class="section articles-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Articles & Blog</h2>
+        <p>Thoughts on AI, software engineering, and building products.</p>
+      </div>
+
+      <div class="articles-content">
+        <div class="substack-embed">
+          <div class="substack-card">
+            <div class="substack-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+              </svg>
+            </div>
+            <div class="substack-info">
+              <h3>Vivek's Substack</h3>
+              <p>On Agency, AI Agents, and building software that matters. Subscribe to get my latest articles directly in your inbox.</p>
+            </div>
+            <a href="https://viveksgag.substack.com/" target="_blank" rel="noopener" class="btn btn-primary">
+              Read on Substack
+            </a>
+          </div>
+        </div>
+
+        <div class="latest-post">
+          <h4>Latest Post</h4>
+          <a href="https://viveksgag.substack.com/p/on-agency-a-floor-by-floor-guide" target="_blank" rel="noopener" class="post-card">
+            <div class="post-content">
+              <h3>On Agency, A Floor-by-Floor Guide to AI Agents</h3>
+              <p>From rigid scripts to human creativity, a floor-by-floor guide to what really makes an AI-enabled system an agent.</p>
+            </div>
+            <div class="post-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section class="section research-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Research Publications</h2>
+        <p>Academic contributions to computer science and engineering.</p>
+      </div>
+
+      <div class="research-list">
+        {publications.map(pub => (
+          <article class="research-card">
+            <div class="research-content">
+              <h3>
+                <a href={pub.link} target="_blank" rel="noopener">{pub.title}</a>
+              </h3>
+              <p class="research-journal">{pub.journal}</p>
+              <time class="research-date">{pub.date}</time>
+            </div>
+            <a href={pub.link} target="_blank" rel="noopener" class="research-link" aria-label="View publication">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="newsletter-card">
+        <div class="newsletter-content">
+          <h2>Stay Updated</h2>
+          <p>Subscribe to my newsletter for the latest articles on AI, software engineering, and product building.</p>
+          <a href="https://viveksgag.substack.com/" target="_blank" class="btn btn-primary">
+            Subscribe on Substack
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page Hero */
+  .page-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    background: linear-gradient(to bottom, var(--color-bg-secondary), var(--color-bg));
+  }
+
+  .page-hero-content {
+    max-width: 700px;
+  }
+
+  .page-hero .tag {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero h1 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  /* Section Header */
+  .section-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .section-header h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-header p {
+    max-width: 500px;
+  }
+
+  /* Books Section */
+  .books-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+
+  .book-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .book-card.featured {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .book-cover {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    background: var(--color-bg-tertiary);
+  }
+
+  .book-cover iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .book-info {
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .featured-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    background: var(--gradient-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-md);
+    width: fit-content;
+  }
+
+  .book-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .book-info p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .book-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .book-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Articles Section */
+  .articles-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  .substack-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+    height: 100%;
+  }
+
+  .substack-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff6719;
+    color: white;
+    border-radius: var(--radius-md);
+  }
+
+  .substack-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .substack-info p {
+    font-size: 0.9375rem;
+  }
+
+  .latest-post {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .latest-post h4 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+
+  .post-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    height: 100%;
+    transition: all var(--transition-base);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .post-content h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text);
+  }
+
+  .post-content p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .post-arrow {
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+  }
+
+  .post-card:hover .post-arrow {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  /* Research Section */
+  .research-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .research-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .research-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .research-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+  }
+
+  .research-content {
+    flex: 1;
+  }
+
+  .research-content h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .research-content h3 a {
+    color: var(--color-text);
+  }
+
+  .research-content h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .research-journal {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .research-date {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .research-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .research-link:hover {
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+  }
+
+  /* Newsletter Card */
+  .newsletter-card {
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(255,255,255,0.2) 0%, transparent 60%);
+  }
+
+  .newsletter-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .newsletter-card h2 {
+    color: white;
+    margin-bottom: var(--space-md);
+  }
+
+  .newsletter-card p {
+    color: rgba(255,255,255,0.9);
+    max-width: 500px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .newsletter-card .btn-primary {
+    background: white;
+    color: var(--color-primary-dark);
+  }
+
+  .newsletter-card .btn-primary:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .articles-content {
+      grid-template-columns: 1fr;
+    }
+
+    .research-card {
+      flex-direction: column;
+    }
+
+    .research-link {
+      align-self: flex-end;
+    }
+
+    .newsletter-card {
+      padding: var(--space-xl);
+    }
+  }
+</style>

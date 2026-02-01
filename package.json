@@ -1,0 +1,16 @@
+{
+  "name": "vivek-ganesan-website",
+  "type": "module",
+  "version": "2.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "postinstall": "astro telemetry disable"
+  },
+  "dependencies": {
+    "astro": "^4.0.0"
+  }
+}
