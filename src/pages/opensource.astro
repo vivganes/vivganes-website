@@ -1,0 +1,902 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    name: "oh-my-ralph",
+    description: "Opinionated Ralph Wiggum loop implemented in Python. A framework for AI-assisted development workflows that works with OpenCode, Copilot, and other AI coding tools. Implements the Ralph Wiggum loop pattern for iterative development.",
+    github: "https://github.com/vivganes/oh-my-ralph",
+    language: "Python",
+    topics: ["OpenCode", "Copilot", "Ralph Loop", "AI Workflow"],
+    license: "MIT",
+    featured: true,
+    lastUpdated: "Feb 2026"
+  },
+  {
+    name: "fact-check-copilot",
+    description: "A tool for validating and fact-checking AI-generated code suggestions. Helps developers verify the accuracy and reliability of AI coding assistant outputs.",
+    github: "https://github.com/vivganes/fact-check-copilot",
+    language: "Python",
+    topics: ["AI Verification", "Code Quality", "Copilot"],
+    featured: true,
+    lastUpdated: "Jan 2026"
+  },
+  {
+    name: "tom-riddles-diary",
+    description: "AI-powered conversational tool exploring interactive dialogue patterns and memory systems.",
+    github: "https://github.com/vivganes/tom-riddles-diary",
+    language: "Python",
+    topics: ["AI", "Conversational AI", "LLM"],
+    featured: false,
+    lastUpdated: "Jan 2026"
+  },
+  {
+    name: "kanbanstr",
+    description: "Modern Kanban board application built on the Nostr protocol for decentralized project management and personal productivity.",
+    github: "https://github.com/vivganes/kanbanstr",
+    language: "Svelte",
+    stars: 20,
+    topics: ["Kanban", "Nostr", "Productivity"],
+    license: "MIT",
+    featured: false
+  },
+  {
+    name: "zapddit",
+    description: "Reddit-style client for Nostr protocol, bringing familiar social discussion patterns to decentralized networks.",
+    github: "https://github.com/vivganes/zapddit",
+    language: "TypeScript",
+    stars: 41,
+    topics: ["Nostr", "Social", "Decentralized"],
+    license: "MIT",
+    featured: false
+  }
+];
+
+const contributions = [
+  {
+    name: "GitHub Copilot SDK",
+    description: "Contributed to GitHub's official Copilot SDK for building AI-powered extensions and agents.",
+    repo: "github/copilot-sdk",
+    prUrl: "https://github.com/github/copilot-sdk/pull/228",
+    prNumber: "#228",
+    featured: true
+  },
+  {
+    name: "VS Code Copilot Chat",
+    description: "Contributed to the official GitHub Copilot Chat extension for Visual Studio Code.",
+    repo: "microsoft/vscode-copilot-chat",
+    prUrl: "https://github.com/microsoft/vscode-copilot-chat/commit/f0408d133db2ab363addfeac43ecfb0baa244ac2",
+    prNumber: "Commit f0408d1",
+    featured: true
+  },
+  {
+    name: "Spring Boot",
+    description: "Contributed to Spring Boot, one of the most popular Java frameworks for building production-ready applications.",
+    repo: "spring-projects/spring-boot",
+    prUrl: "https://github.com/spring-projects/spring-boot/pull/17663",
+    prNumber: "#17663",
+    featured: false
+  },
+  {
+    name: "Pitest",
+    description: "Contributed to PIT Mutation Testing, a state-of-the-art mutation testing system for Java and the JVM.",
+    repo: "hcoles/pitest",
+    prUrl: "https://github.com/hcoles/pitest/pull/1340",
+    prNumber: "#1340",
+    featured: false
+  },
+  {
+    name: "Mutation Testing Elements",
+    description: "Contributed to Stryker's mutation testing visualization elements used across multiple mutation testing frameworks.",
+    repo: "stryker-mutator/mutation-testing-elements",
+    prUrl: "https://github.com/stryker-mutator/mutation-testing-elements/pull/3310",
+    prNumber: "#3310",
+    featured: false
+  }
+];
+---
+
+<Layout title="Open Source - Vivek Ganesan" description="Explore Vivek Ganesan's open source projects and contributions to AI tools, developer frameworks, and community-driven software.">
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <span class="tag">Open Source</span>
+        <h1>Open Source <span class="text-gradient">Contributions</span></h1>
+        <p>Open-source projects, tools, and contributions spanning AI-assisted development, developer productivity tools, and decentralized applications.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notable Contributions Section -->
+  <section class="section notable-contributions-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Notable Contributions</h2>
+        <p>Contributing to widely-used open source projects and tools</p>
+      </div>
+
+      <div class="notable-contributions-grid">
+        {contributions.filter(c => c.featured).map(contrib => (
+          <div class="notable-contribution-card featured">
+            <div class="contribution-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>Featured</span>
+            </div>
+            <div class="contribution-header">
+              <h3>{contrib.name}</h3>
+              <span class="repo-name">{contrib.repo}</span>
+            </div>
+            <p class="contribution-description">{contrib.description}</p>
+            <div class="contribution-footer">
+              <a href={contrib.prUrl} target="_blank" rel="noopener" class="pr-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>View {contrib.prNumber}</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="other-contributions">
+        <h3>Other Contributions</h3>
+        <div class="other-contributions-list">
+          {contributions.filter(c => !c.featured).map(contrib => (
+            <div class="other-contribution-item">
+              <div class="other-contribution-main">
+                <h4>{contrib.name}</h4>
+                <p>{contrib.description}</p>
+              </div>
+              <a href={contrib.prUrl} target="_blank" rel="noopener" class="other-pr-link">
+                {contrib.prNumber}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section projects-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>My Projects</h2>
+        <p>Building tools that solve real problems</p>
+      </div>
+
+      <div class="projects-grid">
+        {projects.map(project => (
+          <article class={`project-card ${project.featured ? 'featured' : ''}`}>
+            {project.featured && (
+              <div class="featured-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <span>Featured</span>
+              </div>
+            )}
+
+            <div class="project-header">
+              <h3>{project.name}</h3>
+              <div class="project-meta">
+                <span class="language-badge">
+                  <span class="language-dot" style={`background: ${
+                    project.language === 'Python' ? '#3572A5' :
+                    project.language === 'TypeScript' ? '#3178c6' :
+                    project.language === 'Svelte' ? '#ff3e00' :
+                    project.language === 'Mermaid' ? '#ff3670' :
+                    '#ccc'
+                  }`}></span>
+                  {project.language}
+                </span>
+                {project.license && (
+                  <span class="license-badge">{project.license}</span>
+                )}
+              </div>
+            </div>
+
+            <p class="project-description">{project.description}</p>
+
+            <div class="project-topics">
+              {project.topics.map(topic => (
+                <span class="topic-tag">{topic}</span>
+              ))}
+            </div>
+
+            <div class="project-footer">
+              <a href={project.github} target="_blank" rel="noopener" class="project-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>View on GitHub</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- GitHub Contributions Widget Section -->
+  <section class="section github-widget-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>GitHub Activity</h2>
+        <p>Contribution history and open source activity</p>
+      </div>
+
+      <div class="widget-container">
+        <a href="https://github.com/vivganes" class="gh-contributions" data-gh-username="vivganes" target="_blank">vivganes's contributions</a>
+      </div>
+
+      <div class="github-link-wrapper">
+        <a href="https://github.com/vivganes" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span>View Full GitHub Profile</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy Section -->
+  <section class="section philosophy-section">
+    <div class="container">
+      <div class="philosophy-content">
+        <span class="tag">Philosophy</span>
+        <h2>AI as Collaborator, Not Shortcut</h2>
+
+        <div class="philosophy-grid">
+          <div class="philosophy-card">
+            <div class="philosophy-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3>Quality First</h3>
+            <p>AI tools should enhance code quality, not compromise it. Test-driven development and engineering discipline remain paramount.</p>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="philosophy-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <h3>Think Better</h3>
+            <p>Use AI to amplify critical thinking and design decisions, not replace them. The best code comes from thoughtful collaboration.</p>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="philosophy-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+              </svg>
+            </div>
+            <h3>Responsible Adoption</h3>
+            <p>Introduce AI tools with proper training, guardrails, and best practices to ensure teams benefit without introducing technical debt.</p>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="philosophy-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3>Continuous Learning</h3>
+            <p>AI tools evolve rapidly. Stay current with best practices, share learnings, and build community knowledge.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2>Want to learn more about AI-assisted development?</h2>
+          <p>Explore my talks, writings, and training programs on using AI effectively in software engineering.</p>
+          <div class="cta-actions">
+            <a href="/talks" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+              Watch My Talks
+            </a>
+            <a href="/writings" class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                <path d="M2 2l7.586 7.586"></path>
+                <circle cx="11" cy="11" r="2"></circle>
+              </svg>
+              Read My Work
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- GitHub Contributions Widget Script -->
+<script src="https://ikuwow.github.io/yourcontributions/widget.min.js"></script>
+
+<style>
+  /* Page Hero */
+  .page-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    background: linear-gradient(to bottom, var(--color-bg-secondary), var(--color-bg));
+  }
+
+  .page-hero-content {
+    max-width: 700px;
+  }
+
+  .page-hero .tag {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero h1 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  /* Section Header */
+  .section-header {
+    margin-bottom: var(--space-2xl);
+    text-align: center;
+  }
+
+  .section-header h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-header p {
+    color: var(--color-text-secondary);
+  }
+
+  /* Book Section */
+  .book-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .book-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl);
+  }
+
+  .book-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-icon {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+    border-radius: var(--radius-lg);
+  }
+
+  .book-content .tag {
+    margin-bottom: var(--space-md);
+  }
+
+  .book-content h2 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .book-content p {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+  }
+
+  .book-impact {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-xl);
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .book-impact svg {
+    color: var(--color-primary);
+  }
+
+  /* Projects Section */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .project-card {
+    position: relative;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+  }
+
+  .project-card.featured {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .project-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .project-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .project-header h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+    font-family: 'Courier New', monospace;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .language-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .language-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .license-badge {
+    font-size: 0.75rem;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+  }
+
+  .project-description {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+    flex: 1;
+  }
+
+  .project-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+  }
+
+  .topic-tag {
+    font-size: 0.75rem;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+  }
+
+  .project-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .project-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* Notable Contributions Section */
+  .notable-contributions-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .notable-contributions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .notable-contribution-card {
+    position: relative;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+  }
+
+  .notable-contribution-card.featured {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .notable-contribution-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .contribution-badge {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .contribution-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .contribution-header h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .repo-name {
+    font-size: 0.8125rem;
+    font-family: 'Courier New', monospace;
+    color: var(--color-text-secondary);
+  }
+
+  .contribution-description {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+    flex: 1;
+  }
+
+  .contribution-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+  }
+
+  .pr-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .pr-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* Other Contributions */
+  .other-contributions {
+    margin-top: var(--space-3xl);
+  }
+
+  .other-contributions h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-xl);
+    text-align: center;
+  }
+
+  .other-contributions-list {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .other-contribution-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg) var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .other-contribution-item:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .other-contribution-main {
+    flex: 1;
+  }
+
+  .other-contribution-main h4 {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .other-contribution-main p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .other-pr-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  .other-pr-link:hover {
+    text-decoration: underline;
+  }
+
+  /* GitHub Widget Section */
+  .github-widget-section {
+    background: var(--color-bg);
+  }
+
+  .widget-container {
+    max-width: 900px;
+    margin: 0 auto var(--space-xl);
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .gh-contributions {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .github-link-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Philosophy Section */
+  .philosophy-content {
+    text-align: center;
+  }
+
+  .philosophy-content .tag {
+    margin-bottom: var(--space-md);
+  }
+
+  .philosophy-content > h2 {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-xl);
+    text-align: left;
+  }
+
+  .philosophy-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .philosophy-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .philosophy-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .philosophy-card h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .philosophy-card p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  /* CTA Section */
+  .cta-card {
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(255,255,255,0.2) 0%, transparent 60%);
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-card p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .cta-card .btn-primary {
+    background: white;
+    color: var(--color-primary-dark);
+  }
+
+  .cta-card .btn-primary:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-card .btn-secondary {
+    background: transparent;
+    border-color: white;
+    color: white;
+  }
+
+  .cta-card .btn-secondary:hover {
+    background: white;
+    color: var(--color-primary-dark);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .notable-contributions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .other-contribution-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .other-pr-link {
+      align-self: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .projects-grid,
+    .notable-contributions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .notable-contribution-card,
+    .other-contribution-item {
+      padding: var(--space-lg);
+    }
+
+    .cta-card {
+      padding: var(--space-xl);
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .widget-container {
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+</style>
