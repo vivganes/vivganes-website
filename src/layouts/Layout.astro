@@ -58,6 +58,7 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
             </div>
 
             <div class="nav-actions">
+              <a href="/services" class="nav-cta">Hire Me</a>
               <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme">
                 <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="5"></circle>
@@ -80,6 +81,7 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
 
       <!-- Mobile Menu -->
       <div class="mobile-menu">
+        <a href="/services" class="mobile-nav-link mobile-nav-cta">Hire Me</a>
         <a href="/" class="mobile-nav-link">Home</a>
         <a href="/talks" class="mobile-nav-link">Talks</a>
         <a href="/writings" class="mobile-nav-link">Writings</a>
@@ -100,6 +102,14 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
               <span class="footer-logo">Vivek Ganesan</span>
               <p class="footer-tagline">AI Educator · Author · Speaker · Entrepreneur</p>
             </div>
+
+            <nav class="footer-nav">
+              <a href="/services">Hire Me</a>
+              <a href="/talks">Talks</a>
+              <a href="/writings">Writings</a>
+              <a href="/opensource">Open Source</a>
+              <a href="/creations">Creations</a>
+            </nav>
 
             <div class="footer-links">
               <a href="https://linkedin.com/in/vivganes/" target="_blank" rel="noopener" class="footer-social" aria-label="LinkedIn">
@@ -207,6 +217,25 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
         gap: var(--space-sm);
       }
 
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border-radius: var(--radius-full);
+        background: var(--gradient-primary);
+        color: white;
+        text-decoration: none;
+        transition: all var(--transition-base);
+      }
+
+      .nav-cta:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
       .btn-icon {
         display: flex;
         align-items: center;
@@ -263,6 +292,11 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
         border-bottom: 1px solid var(--color-border);
       }
 
+      .mobile-nav-cta {
+        color: var(--color-primary);
+        font-weight: 700;
+      }
+
       /* Main */
       main {
         padding-top: var(--header-height);
@@ -302,6 +336,29 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
         gap: var(--space-md);
       }
 
+      .footer-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+      }
+
+      .footer-nav a {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+      }
+
+      .footer-nav a:hover {
+        color: var(--color-primary);
+      }
+
+      .footer-nav a:first-child {
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
       .footer-social {
         display: flex;
         align-items: center;
@@ -337,6 +394,10 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
           display: none;
         }
 
+        .nav-cta {
+          display: none;
+        }
+
         .mobile-menu-btn {
           display: flex;
         }
@@ -344,6 +405,10 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
         .footer-content {
           flex-direction: column;
           text-align: center;
+        }
+
+        .footer-nav {
+          justify-content: center;
         }
       }
     </style>
@@ -377,6 +442,12 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
 
       mobileMenuBtn?.addEventListener('click', () => {
         mobileMenu?.classList.toggle('active');
+      });
+
+      mobileMenu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+        });
       });
     </script>
   </body>

@@ -184,9 +184,14 @@ const publications = [
         <div class="newsletter-content">
           <h2>Stay Updated</h2>
           <p>Subscribe to my newsletter for the latest articles on AI, software engineering, and product building.</p>
-          <a href="https://viveksgag.substack.com/" target="_blank" class="btn btn-primary">
-            Subscribe on Substack
-          </a>
+          <div class="cta-actions">
+            <a href="https://viveksgag.substack.com/" target="_blank" class="btn btn-primary">
+              Subscribe on Substack
+            </a>
+            <a href="/services" class="btn btn-secondary">
+              Hire Me
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -526,6 +531,24 @@ const publications = [
   .newsletter-card .btn-primary:hover {
     background: rgba(255,255,255,0.9);
     box-shadow: var(--shadow-lg);
+  }
+
+  .newsletter-card .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .newsletter-card .btn-secondary {
+    background: transparent;
+    border-color: white;
+    color: white;
+  }
+
+  .newsletter-card .btn-secondary:hover {
+    background: white;
+    color: var(--color-primary-dark);
   }
 
   /* Responsive */

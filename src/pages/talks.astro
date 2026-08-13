@@ -207,9 +207,14 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
         <div class="invite-content">
           <h2>Want me to speak at your event?</h2>
           <p>I'm available for keynotes, workshops, and panel discussions on AI, software engineering, and technical agility.</p>
-          <a href="https://linkedin.com/in/vivganes/" target="_blank" class="btn btn-primary">
-            Get in Touch
-          </a>
+          <div class="invite-actions">
+            <a href="https://topmate.io/vivganes/2248987" target="_blank" class="btn btn-primary">
+              Book a Free Fitment Call
+            </a>
+            <a href="/services" class="btn btn-secondary">
+              1:1 Mentoring & AI Consulting
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -432,6 +437,13 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
   .invite-card p {
     max-width: 500px;
     margin: 0 auto var(--space-xl);
+  }
+
+  .invite-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
   }
 
   /* Responsive */

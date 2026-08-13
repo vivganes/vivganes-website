@@ -1,0 +1,621 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BOOKING_URL = "https://topmate.io/vivganes/2248987";
+
+const offerings = [
+  {
+    title: "1:1 Mentoring for AI Leaders",
+    audience: "Engineering leaders, VPs, and AI implementation leads",
+    description: "Monthly sessions where we pressure-test your AI roadmap, unblock your teams, and keep engineering quality high while you move fast. You get a practitioner's perspective — not slideware.",
+    points: [
+      "Roadmap and agent-program reviews between sessions",
+      "Practical guidance on tools, patterns, and guardrails",
+      "Direct feedback on what your teams are building"
+    ]
+  },
+  {
+    title: "Executive AI Advisory",
+    audience: "CXOs, boards, and founders",
+    description: "Independent advice on AI strategy, vendor and build-vs-buy decisions, cost governance, and agentic programs — grounded in shipping real AI products and contributing to the tools behind GitHub Copilot itself.",
+    points: [
+      "Unbiased second opinion on AI spend and vendors",
+      "Frameworks for measuring ROI, not just activity",
+      "Alignment between AI initiatives and business outcomes"
+    ]
+  },
+  {
+    title: "AI Implementation Workshops",
+    audience: "Product and engineering teams",
+    description: "Hands-on, team-level training in disciplined, test-first AI-assisted development — the same approach used to train 500+ engineers and documented in Test-first Copilot.",
+    points: [
+      "Live coding with your real codebase",
+      "Test-first patterns for AI-generated code",
+      "Guardrails that protect code quality at speed"
+    ]
+  }
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Discovery",
+    description: "A free fitment discovery call where we map your AI goals, current stack, team maturity, and the risks you're most worried about."
+  },
+  {
+    num: "02",
+    title: "Pilot",
+    description: "We pick one high-value, low-risk bet and define what \"working\" means — with metrics and test coverage from day one."
+  },
+  {
+    num: "03",
+    title: "Scale",
+    description: "We roll out what works: training, guardrails, patterns, and the engineering discipline that keeps quality from eroding."
+  },
+  {
+    num: "04",
+    title: "Measure & Adjust",
+    description: "We review the numbers, fix what drifts, and turn AI into a repeatable capability instead of a series of experiments."
+  }
+];
+
+const trackRecord = [
+  "500+ engineers trained in disciplined, test-first AI-assisted development",
+  "70+ conference talks on AI, software engineering, and technical agility since 2013",
+  "Author of Test-first Copilot — test-first discipline applied to AI-assisted development",
+  "Contributor to GitHub Copilot SDK and VS Code Copilot Chat — the tools your teams will actually use",
+  "Founder of Ampyard, a SaaS studio shipping AI-assisted products end to end",
+  "AI keynote at Siemens EDGE 2025 and speaking across Google, Xebia, and international conferences"
+];
+
+const audience = [
+  "Engineering leaders running AI copilot and agent programs",
+  "CXOs who want an independent view on AI strategy and spend",
+  "Teams shipping AI features who refuse to trade away quality",
+  "Anyone who wants AI as a collaborator, not a shortcut"
+];
+
+const testimonials = [];
+---
+
+<Layout title="Hire Me - Vivek Ganesan" description="1:1 mentoring for AI leaders and executive AI advisory for CXOs. Mentoring, advisory, and workshops for turning AI hype into working systems and measurable ROI.">
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <span class="tag">AI Consulting & Mentoring</span>
+        <h1>Let's turn AI hype into <span class="text-gradient">working systems</span></h1>
+        <p>I help CXOs and engineering leaders decide what to build, build it with disciplined engineering, and measure whether it actually pays off. No vendor hype, no shortcuts — just systems that work.</p>
+        <div class="page-hero-actions">
+          <a href={BOOKING_URL} target="_blank" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Book a Free Fitment Call
+          </a>
+          <a href="/talks" class="btn btn-secondary">See How I Teach</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offerings -->
+  <section class="section offerings-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag">Ways to Work</span>
+        <h2>Engagement Formats</h2>
+        <p>Pick the level of support that fits where you are with AI.</p>
+      </div>
+
+      <div class="offerings-grid">
+        {offerings.map(offering => (
+          <article class="offering-card">
+            <div class="offering-header">
+              <h3>{offering.title}</h3>
+              <span class="offering-audience">{offering.audience}</span>
+            </div>
+            <p class="offering-description">{offering.description}</p>
+            <ul class="offering-points">
+              {offering.points.map(point => (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Who this is for -->
+  <section class="section audience-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag">Who This Is For</span>
+        <h2>Are you one of these?</h2>
+      </div>
+      <div class="audience-grid">
+        {audience.map(item => (
+          <div class="audience-item">
+            <div class="audience-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag">How I Work</span>
+        <h2>A Process, Not Experiments</h2>
+        <p>AI implementation fails when it's a series of one-off bets. This is how I keep it repeatable and accountable.</p>
+      </div>
+
+      <div class="process-grid">
+        {steps.map(step => (
+          <div class="process-card">
+            <span class="process-num">{step.num}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Track Record -->
+  <section class="section track-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag">Track Record</span>
+        <h2>What I Bring</h2>
+        <p>Credentials you can verify, not adjectives.</p>
+      </div>
+
+      <div class="track-grid">
+        {trackRecord.map(item => (
+          <div class="track-item">
+            <div class="track-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  {testimonials.length > 0 && (
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section-title">
+          <span class="tag">Testimonials</span>
+          <h2>What Leaders Say</h2>
+        </div>
+        <div class="testimonials-grid">
+          {testimonials.map(t => (
+            <figure class="testimonial-card">
+              <svg class="testimonial-quote" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+              </svg>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2>Ready to make AI work for your business?</h2>
+          <p>Book the free Fitment Discovery Call on Topmate. We'll spend 15 minutes mapping where AI can actually help — and whether I'm the right fit to help you get there.</p>
+          <div class="cta-actions">
+            <a href={BOOKING_URL} target="_blank" class="btn btn-primary">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              </svg>
+              Book a Free Fitment Call
+            </a>
+            <a href="https://viveksgag.substack.com/" target="_blank" class="btn btn-secondary">
+              Subscribe to Newsletter
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page Hero */
+  .page-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    background: linear-gradient(to bottom, var(--color-bg-secondary), var(--color-bg));
+  }
+
+  .page-hero-content {
+    max-width: 760px;
+  }
+
+  .page-hero .tag {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero h1 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .page-hero p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-xl);
+  }
+
+  .page-hero-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  /* Offerings */
+  .offerings-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .offerings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .offering-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .offering-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .offering-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .offering-header h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .offering-audience {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: var(--gradient-subtle);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+  }
+
+  .offering-description {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+    flex: 1;
+  }
+
+  .offering-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .offering-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .offering-points svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  /* Audience */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .audience-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    transition: all var(--transition-base);
+  }
+
+  .audience-item:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .audience-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+  }
+
+  .audience-item span {
+    font-weight: 500;
+  }
+
+  /* Process */
+  .process-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .process-card {
+    position: relative;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .process-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .process-num {
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: var(--space-md);
+  }
+
+  .process-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .process-card p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  /* Track Record */
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .track-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    transition: all var(--transition-base);
+  }
+
+  .track-item:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .track-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    background: var(--gradient-subtle);
+    color: var(--color-primary);
+  }
+
+  .track-item p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  /* Testimonials */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .testimonial-card {
+    position: relative;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+  }
+
+  .testimonial-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+  }
+
+  .testimonial-quote {
+    color: var(--color-primary);
+    opacity: 0.4;
+    margin-bottom: var(--space-md);
+  }
+
+  .testimonial-card blockquote {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+  }
+
+  .testimonial-card figcaption {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial-card figcaption strong {
+    font-size: 0.9375rem;
+  }
+
+  .testimonial-card figcaption span {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  /* CTA */
+  .cta-section {
+    padding-bottom: var(--space-4xl);
+  }
+
+  .cta-card {
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(255,255,255,0.2) 0%, transparent 60%);
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-md);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .cta-card p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .cta-card .btn-primary {
+    background: white;
+    color: var(--color-primary-dark);
+  }
+
+  .cta-card .btn-primary:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-card .btn-secondary {
+    background: transparent;
+    border-color: white;
+    color: white;
+  }
+
+  .cta-card .btn-secondary:hover {
+    background: white;
+    color: var(--color-primary-dark);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .page-hero {
+      padding: var(--space-3xl) 0 var(--space-xl);
+    }
+
+    .page-hero-actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cta-card {
+      padding: var(--space-2xl);
+    }
+  }
+</style>
