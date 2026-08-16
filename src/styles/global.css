@@ -94,6 +94,34 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Scrollbar: hidden until scrolling */
+html {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: var(--radius-full);
+}
+
+html.scrolling {
+  scrollbar-color: var(--color-text-muted) transparent;
+}
+
+html.scrolling::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+}
+
 body {
   font-family: var(--font-sans);
   font-size: 1rem;

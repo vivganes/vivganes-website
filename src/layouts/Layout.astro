@@ -449,6 +449,14 @@ const { title, description = "AI Educator, Author, Conference Keynote Speaker & 
           mobileMenu.classList.remove('active');
         });
       });
+
+      // Scrollbar: reveal only while scrolling
+      let scrollTimer;
+      window.addEventListener('scroll', () => {
+        document.documentElement.classList.add('scrolling');
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => document.documentElement.classList.remove('scrolling'), 600);
+      }, { passive: true });
     </script>
   </body>
 </html>

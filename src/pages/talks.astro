@@ -113,30 +113,34 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
   <!-- Hero -->
   <section class="page-hero">
     <div class="container">
-      <div class="page-hero-content">
-        <span class="tag">Conference Speaking</span>
-        <h1>Talks & <span class="text-gradient">Presentations</span></h1>
-        <p>Speaking at international conferences since 2013 on AI, software engineering, DevOps, and technical agility.</p>
-      </div>
-    </div>
-  </section>
+      <div class="hero-layout">
+        <div class="page-hero-content">
+          <span class="tag">Conference Talks</span>
+          <h1>Talks & <span class="text-gradient">Presentations</span></h1>
+          <p>Speaking at international conferences since 2013 on AI, software engineering, DevOps, and technical agility.</p>
+        </div>
 
-  <!-- Video Section -->
-  <section class="section video-section">
-    <div class="container">
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/videoseries?list=PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD"
-          title="Vivek's Talks Playlist"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/videoseries?list=PLtQT0a2cx00ZLO9sclfoWeoeE4JyWtCtD"
+            title="Vivek's Talks Playlist"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
       </div>
+
+      <a href="#talks-timeline" class="scroll-cue">
+        <span class="scroll-cue-text">Browse the full talk list below</span>
+        <svg class="scroll-cue-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
   <!-- Timeline -->
-  <section class="section timeline-section">
+  <section class="section timeline-section" id="talks-timeline">
     <div class="container">
       <div class="timeline-layout">
         <!-- Sticky Nav -->
@@ -224,8 +228,15 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
 <style>
   /* Page Hero */
   .page-hero {
-    padding: var(--space-4xl) 0 var(--space-2xl);
+    padding: var(--space-3xl) 0 var(--space-2xl);
     background: linear-gradient(to bottom, var(--color-bg-secondary), var(--color-bg));
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
   }
 
   .page-hero-content {
@@ -245,16 +256,11 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
     line-height: 1.7;
   }
 
-  /* Video Section */
-  .video-section {
-    padding-top: 0;
-  }
-
+  /* Video */
   .video-wrapper {
     position: relative;
     width: 100%;
-    max-width: 800px;
-    padding-bottom: 56.25%;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-xl);
     overflow: hidden;
     box-shadow: var(--shadow-xl);
@@ -269,7 +275,38 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
     border: none;
   }
 
-  /* Timeline Layout */
+  /* Scroll cue (mobile) */
+  .scroll-cue {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .scroll-cue {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      margin-top: var(--space-lg);
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      text-decoration: none;
+    }
+
+    .scroll-cue-chevron {
+      animation: scroll-cue-bounce 1.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes scroll-cue-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* Timeline */
+  .timeline-section {
+    scroll-margin-top: calc(var(--header-height) + var(--space-xl));
+  }
+
   .timeline-layout {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -448,6 +485,10 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
 
   /* Responsive */
   @media (max-width: 900px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+    }
+
     .timeline-layout {
       grid-template-columns: 1fr;
     }
@@ -458,6 +499,27 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
   }
 
   @media (max-width: 640px) {
+    .page-hero {
+      padding: var(--space-lg) 0;
+    }
+
+    .hero-layout {
+      gap: var(--space-lg);
+    }
+
+    .page-hero .tag {
+      margin-bottom: var(--space-md);
+    }
+
+    .page-hero h1 {
+      margin-bottom: var(--space-md);
+    }
+
+    .page-hero p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
     .talk-card {
       flex-direction: column;
       align-items: flex-start;
@@ -474,8 +536,8 @@ const years = Object.keys(talks).sort((a, b) => Number(b) - Number(a));
 </style>
 
 <script>
-  // Smooth scroll for year links
-  document.querySelectorAll('.year-link').forEach(link => {
+  // Smooth scroll for year links and scroll cue
+  document.querySelectorAll('.year-link, .scroll-cue').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const href = link.getAttribute('href');
